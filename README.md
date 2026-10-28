@@ -127,19 +127,87 @@ python voice_control.py
 
 Choose `ar` for Arabic or `en` for English, then speak one of the supported commands. Press **Ctrl+C** in the terminal to stop.
 
-## 📦 Windows executable
+## 📦 Download and run on Windows (no Python required)
 
-You can build a standalone `AirSlideVoiceControl.exe` with PyInstaller. **The Vosk language models are not bundled into the EXE**; keep the model folder beside the executable so you can choose Arabic or English at startup.
+**Want to use AirSlide instead of developing it? Download the ready-to-run EXE from the latest release.** You do not need to install Python or clone the repository.
+
+### 1. Download the app
+
+1. Open the [Latest Release](https://github.com/Mahmoud976/Air_Slide_Voice_Control/releases/latest).
+2. Under **Assets**, download `AirSlideVoiceControl.exe`.
+3. Create a folder such as `AirSlide` and move the EXE into it.
+
+### 2. Download the language model(s)
+
+The EXE does **not** include the large Vosk language models. Download only the language(s) you want to use from the official [Vosk Models page](https://alphacephei.com/vosk/models), then extract each ZIP file. Put the extracted model folder(s) in the **same folder as the EXE**. Keep the folder names exactly as shown:
+
+| Language | Model folder name |
+|---|---|
+| Arabic | `vosk-model-ar-mgb2-0.4` |
+| English | `vosk-model-small-en-us-0.15` |
+
+Your folder should look like this (include only the model(s) you downloaded):
+
+```text
+AirSlide/
+├── AirSlideVoiceControl.exe
+├── vosk-model-ar-mgb2-0.4/
+│   ├── am/
+│   ├── conf/
+│   └── ...
+└── vosk-model-small-en-us-0.15/
+    ├── am/
+    ├── conf/
+    └── ...
+```
+
+**Important:** Extract the ZIP first. Do not leave the model inside the ZIP or accidentally create an extra nested folder. The model folder itself should contain folders/files such as `am` and `conf`.
+
+### 3. Start using AirSlide
+
+1. Connect your microphone and allow microphone access in Windows if prompted.
+2. Open PowerPoint and start **Slide Show**.
+3. Double-click `AirSlideVoiceControl.exe`.
+4. Choose Arabic (`ar`) or English (`en`) when prompted, then speak a supported command.
+5. Keep the PowerPoint slide show as the active window so the arrow-key command goes to your presentation.
+
+Say a next-slide phrase such as **“اللي بعدها”** or **“Next slide”**, or a previous-slide phrase such as **“اللي قبل كده”** or **“Previous slide”**. See [Supported commands](#-supported-commands) for more examples.
+
+To stop the program, use **Ctrl+C** if a console window is shown; otherwise close the app window or end `AirSlideVoiceControl.exe` from Task Manager.
+
+### Troubleshooting the downloaded EXE
+
+- **Model not found:** check that the extracted model folder is beside the EXE and its name matches the table exactly.
+- **Windows blocks the EXE:** Windows may show a SmartScreen warning for an unsigned app. Only continue if you trust this project and downloaded it from the official release page.
+- **No voice detected:** check Windows **Settings → System → Sound → Input** and microphone permissions.
+- **Slides do not move:** make sure PowerPoint is in Slide Show mode and is the active window.
+
+## 🧑‍💻 Run from source or build the EXE
+
+This section is for developers. If you only want to use AirSlide, follow the download steps above instead.
+
+### Run from source
+
+1. Install Python 3.10+ (64-bit recommended) and clone the repository.
+2. Open Command Prompt in the project folder and run:
+
+```cmd
+py -m venv .venv
+.venv\\Scripts\\activate
+python -m pip install -r requirements.txt
+python voice_control.py
+```
+
+3. Download the required Vosk model(s) from the [official model page](https://alphacephei.com/vosk/models) and place them in the project folder using the exact names in the table above.
 
 ### Build locally
 
-1. Install Python and clone the repository.
-2. Open Command Prompt in the project folder.
-3. Run `build_exe.bat`.
-4. Find the executable at `dist\AirSlideVoiceControl.exe`.
-5. Copy the Vosk model folder(s) you want to use into the same `dist` folder as the EXE.
+1. Open Command Prompt in the project folder.
+2. Run `build_exe.bat`.
+3. Find the executable at `dist\\AirSlideVoiceControl.exe`.
+4. Copy the Vosk model folder(s) you want to use into the same `dist` folder as the EXE.
 
-GitHub Actions can also build the Windows executable and upload it as a temporary artifact. See [Build Windows EXE](https://github.com/Mahmoud976/Air_Slide_Voice_Control/actions/workflows/build-windows-exe.yml). Artifacts expire after 14 days; they are not permanent releases.
+GitHub Actions also builds the EXE. You can inspect the [Build Windows EXE workflow](https://github.com/Mahmoud976/Air_Slide_Voice_Control/actions/workflows/build-windows-exe.yml); the latest downloadable release is linked above.
 
 ## 🛠️ Troubleshooting
 
