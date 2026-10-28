@@ -1,68 +1,194 @@
-# Air Slide Voice Control
+# AirSlide Voice Control 🎙️
 
-Control PowerPoint slide navigation using offline Arabic or English voice commands.
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:111827,45:164E63,100:06B6D4&text=AirSlide&fontColor=FFFFFF&fontSize=76&fontAlignY=38&desc=Offline%20Voice-Powered%20Presentation%20Control&descAlignY=60&descSize=18&animation=scaleIn" width="100%" alt="AirSlide Voice Control banner" />
+</p>
 
-## Features
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&pause=1000&color=22D3EE&center=true&vCenter=true&width=900&lines=Your+voice.+Your+slides.+Your+flow.;Arabic+%2B+English+%7C+Offline+speech+recognition;Built+with+Python%2C+Vosk%2C+and+PyAutoGUI" alt="Your voice. Your slides. Your flow." />
+</p>
 
-- Offline speech recognition with [Vosk](https://alphacephei.com/vosk/)
-- Arabic and English language-model options
-- Navigate to the next or previous PowerPoint slide using voice
-- Microphone input through `sounddevice`
-- Keyboard automation through `pyautogui`
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+" />
+  <img src="https://img.shields.io/badge/Speech-Vosk-0F766E?style=for-the-badge" alt="Vosk offline speech recognition" />
+  <img src="https://img.shields.io/badge/Languages-Arabic%20%7C%20English-0891B2?style=for-the-badge" alt="Arabic and English" />
+  <img src="https://img.shields.io/badge/Mode-Offline-16A34A?style=for-the-badge&logo=shield&logoColor=white" alt="Offline" />
+  <img src="https://img.shields.io/badge/Platform-Windows-2563EB?style=for-the-badge&logo=windows&logoColor=white" alt="Windows" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-7C3AED?style=for-the-badge" alt="MIT License" /></a>
+</p>
 
-## Requirements
+<p align="center">
+  <a href="#-overview">Overview</a> · <a href="#-features">Features</a> · <a href="#-supported-commands">Commands</a> · <a href="#-quick-start">Quick Start</a> · <a href="#-windows-executable">Windows EXE</a> · <a href="#-how-it-works">How It Works</a>
+</p>
 
-- Windows
-- Python 3.10 or a compatible Python version supported by the installed dependencies
+---
+
+## ✨ Overview
+
+**AirSlide Voice Control** lets you navigate a PowerPoint slideshow using spoken commands in **Arabic or English**. It uses Vosk for local speech recognition and PyAutoGUI to send the keyboard input for the next or previous slide.
+
+No cloud speech API is needed: audio recognition runs locally on your computer after the language model has been downloaded.
+
+> **Current scope:** AirSlide Voice Control supports next/previous slide navigation by keyboard input. It does not control PowerPoint through its internal API, so keep the slide show focused while speaking commands.
+
+## 🚀 Features
+
+- **Arabic and English modes** — choose your preferred recognition language at startup.
+- **Offline speech recognition** — powered by Vosk and a locally stored model.
+- **PowerPoint navigation** — voice commands send Right Arrow or Left Arrow.
+- **Arabic phrase normalization** — handles common spelling and pronunciation variations.
+- **Low-latency audio queue** — keeps recent microphone audio when recognition falls behind.
+- **Duplicate-command guard** — reduces accidental repeated actions within a short interval.
+- **Windows-friendly setup** — run from Python or package the script into an executable.
+- **Privacy-minded by design** — no cloud speech service is called by the app.
+
+## 🎤 Supported commands
+
+### Arabic
+
+| Action | Examples |
+|---|---|
+| Next slide | `التالي` · `التالية` · `اللي بعده` · `اللي بعدها` · `بعده` · `كمل` |
+| Previous slide | `السابق` · `السابقة` · `اللي قبله` · `اللي قبل كده` · `ارجع` · `ورا` |
+
+### English
+
+| Action | Examples |
+|---|---|
+| Next slide | `Next` · `Next slide` · `Go next` · `Forward` |
+| Previous slide | `Previous` · `Previous slide` · `Go back` · `Back` |
+
+Commands are matched against recognized speech, so accuracy depends on the model, microphone, background noise, and pronunciation. You can customize the phrases in `voice_control.py`.
+
+## 🧠 How it works
+
+1. **Capture audio** — `sounddevice` streams microphone audio at 16 kHz.
+2. **Recognize speech** — Vosk converts audio into text using the selected local model.
+3. **Normalize and match** — the app cleans the recognized phrase and checks it against supported commands.
+4. **Prevent rapid repeats** — a short duplicate-command guard filters accidental repeated actions.
+5. **Navigate** — PyAutoGUI presses the Right Arrow or Left Arrow key.
+
+## 🧰 Tech stack
+
+| Technology | Role |
+|---|---|
+| [Python](https://www.python.org/) | Application logic |
+| [Vosk](https://alphacephei.com/vosk/) | Offline speech recognition |
+| [sounddevice](https://python-sounddevice.readthedocs.io/) | Microphone audio capture |
+| [PyAutoGUI](https://pyautogui.readthedocs.io/) | Sends slide-navigation key presses |
+| [NumPy](https://numpy.org/) | Dependency used by the Python audio stack |
+
+## ⚡ Quick start
+
+### Requirements
+
+- Windows 10/11
+- Python 3.10+ (64-bit recommended)
 - A working microphone
-- Microsoft PowerPoint open in slide-show mode
-- The Arabic and/or English Vosk model downloaded separately
+- Microsoft PowerPoint or another presentation app that supports arrow-key navigation
+- The Vosk model for the language you want to use
 
-## Setup
+### 1. Clone the project
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/Mahmoud976/Air_Slide_Voice_Control.git
-   cd Air_Slide_Voice_Control
-   ```
+```cmd
+git clone https://github.com/Mahmoud976/Air_Slide_Voice_Control.git
+cd Air_Slide_Voice_Control
+```
 
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/Scripts/activate
-   ```
-   On Windows PowerShell, activate it with:
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
+### 2. Create a virtual environment
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Run these commands in **Windows Command Prompt**:
 
-4. Download the Vosk language models you need and extract them into the project folder. The application has been tested with:
-   - `vosk-model-ar-mgb2-0.4`
-   - `vosk-model-small-en-us-0.15`
+```cmd
+py -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-   Model downloads are available from the [Vosk models page](https://alphacephei.com/vosk/models). Model folders are intentionally excluded from Git because they are large.
+### 3. Download a speech model
 
-## Run
+Download the model you need from the official [Vosk Models page](https://alphacephei.com/vosk/models), extract it, then place the model folder directly inside the project directory using one of these exact folder names:
 
-Start PowerPoint and enter Slide Show mode, then run:
+| Language | Expected folder |
+|---|---|
+| Arabic | `vosk-model-ar-mgb2-0.4` |
+| English | `vosk-model-small-en-us-0.15` |
 
-```bash
+The model folders are intentionally excluded from Git because they are large. The program checks the expected folder name at startup.
+
+### 4. Start presenting
+
+Open PowerPoint, start **Slide Show**, then run:
+
+```cmd
 python voice_control.py
 ```
 
-Choose the language when prompted and speak the supported slide-navigation commands. Recognition accuracy depends on microphone quality, background noise, pronunciation, and the selected model.
+Choose `ar` for Arabic or `en` for English, then speak one of the supported commands. Press **Ctrl+C** in the terminal to stop.
 
-## Notes
+## 📦 Windows executable
 
-- Keep the Vosk model folders at the paths expected by `voice_control.py`.
-- Check the command names in `voice_control.py` if you want to customize the phrases.
-- This project performs local/offline speech recognition; it does not require a cloud speech API.
+You can build a standalone `AirSlideVoiceControl.exe` with PyInstaller. **The Vosk language models are not bundled into the EXE**; keep the model folder beside the executable so you can choose Arabic or English at startup.
 
-## License
+### Build locally
 
-No license has been specified yet. Add a license file if you intend to permit reuse or redistribution.
+1. Install Python and clone the repository.
+2. Open Command Prompt in the project folder.
+3. Run `build_exe.bat`.
+4. Find the executable at `dist\AirSlideVoiceControl.exe`.
+5. Copy the Vosk model folder(s) you want to use into the same `dist` folder as the EXE.
+
+GitHub Actions can also build the Windows executable and upload it as a temporary artifact. See [Build Windows EXE](https://github.com/Mahmoud976/Air_Slide_Voice_Control/actions/workflows/build-windows-exe.yml). Artifacts expire after 14 days; they are not permanent releases.
+
+## 🛠️ Troubleshooting
+
+- **Model folder not found:** confirm the model is extracted and its folder name matches the table above exactly.
+- **No microphone audio / PortAudio error:** check Windows microphone permissions and select a working default input device.
+- **Commands are not recognized:** reduce background noise, speak clearly, check the selected language, and try the example phrases above.
+- **Slides do not move:** start Slide Show and make sure PowerPoint is the active/focused window.
+- **Python cannot find a package:** activate `.venv` and run `python -m pip install -r requirements.txt` from the repository directory.
+
+## 🔐 Privacy and safety
+
+- Speech recognition is performed locally using the downloaded Vosk model.
+- The app sends keyboard presses to the active window; focus the presentation before using it.
+- Test commands on a sample deck before a live presentation.
+- Stop the app with **Ctrl+C** if it behaves unexpectedly.
+
+## 🗺️ Roadmap
+
+- [x] Offline Arabic and English recognition
+- [x] Voice-controlled next/previous slide navigation
+- [x] Duplicate-command guard
+- [x] Windows executable build workflow
+- [ ] Add a short demo video/GIF
+- [ ] Add configurable microphone selection and sensitivity options
+- [ ] Expand supported presentation commands
+
+## 🤝 Contributing
+
+Ideas, bug reports, and pull requests are welcome. For useful bug reports, include your Windows version, Python version, selected model, microphone setup, and the exact command you spoke.
+
+## 👨‍💻 Author
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=0:111827,45:164E63,100:06B6D4&text=BUILT%20BY&fontColor=FFFFFF&fontSize=38&fontAlignY=42&animation=fadeIn" width="100%" alt="Built by banner" />
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=22D3EE&center=true&vCenter=true&width=850&lines=Mahmoud+Mohammed+El+Sayed+Saleh" alt="Mahmoud Mohammed El Sayed Saleh" />
+</p>
+
+<p align="center">
+  <a href="https://www.linkedin.com/in/mahmoud-m-saleh/"><img src="https://img.shields.io/badge/LinkedIn-Connect%20with%20Mahmoud-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="https://github.com/Mahmoud976"><img src="https://img.shields.io/badge/GitHub-Mahmoud976-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub profile" /></a>
+</p>
+
+## 📄 License
+
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:111827,45:164E63,100:06B6D4&section=footer&animation=twinkling&reversal=true" width="100%" alt="AirSlide footer" />
+</p>
