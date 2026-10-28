@@ -1,4 +1,4 @@
-name: Build Windows EXE
+name: Build and Release Windows EXE
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -52,3 +52,13 @@ jobs:
           path: dist/AirSlideVoiceControl.exe
           if-no-files-found: error
           retention-days: 14
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: AirSlide Voice Control v1.0.${{ github.run_number }}
+          generate_release_notes: true
+          files: dist/AirSlideVoiceControl.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
