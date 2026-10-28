@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.pyc
+vosk-model-ar-mgb2-0.4/
+vosk-model-small-en-us-0.15/
